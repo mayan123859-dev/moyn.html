@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>موقع تعليم HTML التفاعلي</title>
+    <style>
+        body { font-family: sans-serif; background-color: #0b132b; color: white; text-align: center; margin: 0; padding-bottom: 50px; }
+        header { background-color: #1c2541; padding: 20px; border-bottom: 2px solid #5bc0be; }
+        .container { display: flex; justify-content: center; gap: 15px; padding: 20px; flex-wrap: wrap; }
+        .card { width: 200px; padding: 20px; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        .card:hover { transform: scale(1.05); }
+        .purple { background-color: #7209b7; } .blue { background-color: #4361ee; }
+        .green { background-color: #4cc9f0; } .pink { background-color: #f72585; }
+        
+        /* أقسام المحتوى المخفية */
+        .content-section { display: none; background: #1c2541; margin: 20px auto; padding: 20px; width: 80%; border-radius: 15px; border: 1px solid #5bc0be; }
+        .active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        button { background: #5bc0be; border: none; padding: 10px 20px; color: white; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .quiz-option { display: block; background: #3a506b; margin: 10px; padding: 10px; border-radius: 5px; cursor: pointer; }
+        .quiz-option:hover { background: #5bc0be; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>تعليم HTML التفاعلي 🚀</h1>
+    <p>اضغطي على أي قسم بالأسفل لتجربته</p>
+</header>
+
+<div class="container">
+    <div class="card purple" onclick="showSection('summary')">
+        <h3>📚 ملخصات</h3>
+        <p>تعلم أساسيات اللغة</p>
+    </div>
+    <div class="card blue" onclick="showSection('activity')">
+        <h3>🛠️ أنشطة</h3>
+        <p>جربي كتابة الكود</p>
+    </div>
+    <div class="card green" onclick="showSection('game')">
+        <h3>🎮 ألعاب</h3>
+        <p>تحدي السرعة</p>
+    </div>
+    <div class="card pink" onclick="showSection('quiz')">
+        <h3>📝 اختبارات</h3>
+        <p>قيّمي مستواكِ</p>
+    </div>
+</div>
+
+<div id="summary" class="content-section">
+    <h2>ملخص سريـع</h2>
+    <ul style="text-align: right; display: inline-block;">
+        <li><code>&lt;h1&gt;</code> : للعنوان الرئيسي.</li>
+        <li><code>&lt;p&gt;</code> : لكتابة الفقرات.</li>
+        <li><code>&lt;a&gt;</code> : لإضافة الروابط.</li>
+        <li><code>&lt;img&gt;</code> : لإضافة الصور.</li>
+    </ul>
+</div>
+
+<div id="activity" class="content-section">
+    <h2>نشاط: محرر الكود الصغير</h2>
+    <p>اكتبي اسمك بين وسمي العنوان واضغطي عرض:</p>
+    <input type="text" id="userInput" placeholder="<h1>اسمي هنا</h1>" style="padding: 10px; width: 80%;">
+    <br>
+    <button onclick="runActivity()">عرض النتيجة</button>
+    <div id="resultArea" style="margin-top: 15px; padding: 10px; background: white; color: black; border-radius: 5px;"></div>
+</div>
+
+<div id="game" class="content-section">
+    <h2>لعبة: هل هذا وسم صحيح؟</h2>
+    <p id="gameQuestion">هل <code>&lt;bold&gt;</code> هو الوسم الصحيح لتغليظ الخط في HTML5؟</p>
+    <button onclick="checkGame(false)">خطأ</button>
+    <button onclick="checkGame(true)">صح</button>
+    <p id="gameFeedback"></p>
+</div>
+
+<div id="quiz" class="content-section">
+    <h2>اختبر نفسك</h2>
+    <p>ما هو الوسم الصحيح لإنشاء رابط؟</p>
+    <div class="quiz-option" onclick="checkQuiz(false)">1. &lt;link&gt;</div>
+    <div class="quiz-option" onclick="checkQuiz(true)">2. &lt;a&gt;</div>
+    <div class="quiz-option" onclick="checkQuiz(false)">3. &lt;href&gt;</div>
+    <p id="quizFeedback"></p>
+</div>
+
+<script>
+    function showSection(id) {
+        // إخفاء كل الأقسام أولاً
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        // إظهار القسم المطلوب
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function runActivity() {
+        const input = document.getElementById('userInput').value;
+        document.getElementById('resultArea').innerHTML = input;
+    }
+
+    function checkGame(isTrue) {
+        const feedback = document.getElementById('gameFeedback');
+        if(!isTrue) {
+            feedback.innerHTML = "✅ صح! الوسم الصحيح هو <strong>&lt;strong&gt;</strong> وليس bold.";
+            feedback.style.color = "#2ecc71";
+        } else {
+            feedback.innerHTML = "❌ خطأ، حاولي مرة أخرى!";
+            feedback.style.color = "#e74c3c";
+        }
+    }
+
+    function checkQuiz(isCorrect) {
+        const feedback = document.getElementById('quizFeedback');
+        if(isCorrect) {
+            feedback.innerHTML = "ممتاز! الإجابة صحيحة 🎉";
+            feedback.style.color = "#2ecc71";
+        } else {
+            feedback.innerHTML = "للأسف خطأ، وسم الرابط هو &lt;a&gt;";
+            feedback.style.color = "#e74c3c";
+        }
+    }
+</script>
+
+</body>
+</html>
